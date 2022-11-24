@@ -364,10 +364,10 @@ export interface FetchPreviousPageOptions extends ResultOptions {
 export type QueryStatus = 'loading' | 'error' | 'success'
 export type FetchStatus = 'fetching' | 'paused' | 'idle'
 
-export interface QueryObserverBaseResult<TData = unknown, TError = unknown> {
-  data: TData | undefined
+export interface QueryObserverBaseResult<TData, TError> {
+  data: TData
   dataUpdatedAt: number
-  error: TError | null
+  error: TError
   errorUpdatedAt: number
   failureCount: number
   failureReason: TError | null
@@ -394,10 +394,8 @@ export interface QueryObserverBaseResult<TData = unknown, TError = unknown> {
   fetchStatus: FetchStatus
 }
 
-export interface QueryObserverLoadingResult<TData = unknown, TError = unknown>
-  extends QueryObserverBaseResult<TData, TError> {
-  data: undefined
-  error: null
+export interface QueryObserverLoadingResult
+  extends QueryObserverBaseResult<undefined, null> {
   isError: false
   isLoading: true
   isLoadingError: false
@@ -407,11 +405,8 @@ export interface QueryObserverLoadingResult<TData = unknown, TError = unknown>
 }
 
 export interface QueryObserverLoadingErrorResult<
-  TData = unknown,
   TError = unknown,
-> extends QueryObserverBaseResult<TData, TError> {
-  data: undefined
-  error: TError
+> extends QueryObserverBaseResult<undefined, TError> {
   isError: true
   isLoading: false
   isLoadingError: true
@@ -424,8 +419,6 @@ export interface QueryObserverRefetchErrorResult<
   TData = unknown,
   TError = unknown,
 > extends QueryObserverBaseResult<TData, TError> {
-  data: TData
-  error: TError
   isError: true
   isLoading: false
   isLoadingError: false
@@ -434,10 +427,8 @@ export interface QueryObserverRefetchErrorResult<
   status: 'error'
 }
 
-export interface QueryObserverSuccessResult<TData = unknown, TError = unknown>
-  extends QueryObserverBaseResult<TData, TError> {
-  data: TData
-  error: null
+export interface QueryObserverSuccessResult<TData = unknown>
+  extends QueryObserverBaseResult<TData, null> {
   isError: false
   isLoading: false
   isLoadingError: false
